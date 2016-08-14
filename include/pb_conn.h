@@ -42,9 +42,12 @@ public:
   char* wbuf_;
   uint32_t wbuf_len_;
   uint32_t wbuf_pos_;
+  uint32_t wbuf_size_;
+
 
 private:
 
+  bool ExpandWbuf(uint32_t claim_size);
   virtual Status BuildObuf();
 };
 
