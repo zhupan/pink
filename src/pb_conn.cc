@@ -57,10 +57,11 @@ ReadStatus PbConn::GetRequest() {
             remain_packet_len_ = header_len_;
             cur_pos_ += COMMAND_HEADER_LENGTH;
             connStatus_ = kPacket;
+            continue;
           }
           log_info("GetRequest kHeader header_len=%u cur_pos=%u rbuf_len=%u remain_packet_len_=%d nread=%d\n", header_len_, cur_pos_, rbuf_len_, remain_packet_len_, nread);
         }
-        break;
+        return kReadHalf;
       }
       case kPacket: {
         if (header_len_ >= PB_MAX_MESSAGE - COMMAND_HEADER_LENGTH) {
@@ -83,10 +84,11 @@ ReadStatus PbConn::GetRequest() {
           if (remain_packet_len_ == 0) {
             cur_pos_ = rbuf_len_;
             connStatus_ = kComplete;
+            continue;
           }
           log_info("GetRequest kPacket header_len=%u cur_pos=%u rbuf_len=%u remain_packet_len_=%d nread=%d\n", header_len_, cur_pos_, rbuf_len_, remain_packet_len_, nread);
         }
-        break;
+        return kReadHalf;
       }
       case kComplete: {
         DealMessage();
