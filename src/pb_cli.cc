@@ -178,6 +178,6 @@ int PbCli::ReadPacket() {
     rbuf_pos_ += nread;
   }
 
-  return packet_len_;
+  return PB_OK;
 }
 };
